@@ -21,7 +21,33 @@ public class StudentService {
     }
 
 
+    //get all details
     public List<StudentEntity> getAllDetails(){
         return studentRepository.findAll();
+    }
+
+    //fetch data by id
+    //we are using here entity itself cause we are returning a row itself , cause it is also an object of student hence we are returning so
+    public StudentEntity getAllDetailsById(int id){
+        return studentRepository.findById(id).orElse(null);
+    }
+
+    //we write logic for updating here
+    //the whole json data for update data will come here in the variable student , we are gonna only take the value id from student
+    public StudentEntity updateAllDetail(StudentEntity studentEntity){
+        StudentEntity updateStudent = studentRepository.findById(studentEntity.getId()).orElse(null);//incase if the id is not present then we sent null
+        if(updateStudent != null)
+        {
+            updateStudent.setMark(studentEntity.getMark());
+            updateStudent.setName(studentEntity.getName());
+            studentRepository.save(updateStudent);
+            return updateStudent;
+        }
+        return null;
+    }
+
+    public boolean deleteStudentById(int id ){
+        studentRepository.deleteById(id);//we cant studentEnitity type , cause it will not return that after deletion
+        return true;
     }
 }

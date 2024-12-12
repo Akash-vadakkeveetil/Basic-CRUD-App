@@ -1,13 +1,9 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Repository.StudentRepository;
 import com.example.demo.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +27,28 @@ public class StudentController {
     @GetMapping("/getStudent")
     public List<StudentEntity> getDetails(){
         return studentService.getAllDetails();
+    }
+
+    @GetMapping("/getStudent/{id}")
+    public StudentEntity getDetailsById(@PathVariable int id){
+        return studentService.getAllDetailsById(id);
+    }
+
+
+    //here we call the logic for updating
+    @PostMapping("/updateStudent")
+    public StudentEntity updateDetails(@RequestBody StudentEntity studentEntity){
+
+        return studentService.updateAllDetail(studentEntity);
+    }
+
+
+    @DeleteMapping("/deleteStudent/{id}")
+    public String deleteStudent(@PathVariable int id){
+        if(studentService.deleteStudentById(id))
+            return "Deleted Successfullly";
+        else {
+            return "Cant Delete";
+        }
     }
 }
